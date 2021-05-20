@@ -1,0 +1,14 @@
+## syslog.yml
+# vim:ft=yaml.ansible:
+---
+- hosts: syslogservers
+  become: yes
+  roles:
+    - role: oscpe262.syslogserver
+      tags: ["syslog","syslogserver"]
+
+- hosts: all:!syslogservers
+  become: yes
+  roles:
+    - { role: oscpe262.syslogclient, tags: ["syslog","syslogclient"] }
+...

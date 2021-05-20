@@ -1,0 +1,13 @@
+## roles/ansible-role-sshd/handlers/main.yml
+# vim:ft=yaml.ansible:
+---
+- name: restart sshd
+  service:
+    name: '{{ ssh_daemon }}'
+    state: '{{ ssh_state }}'
+    enabled: '{{ ssh_enabled }}'
+
+- name: restart ufw
+  ufw:
+    state: reloaded
+...

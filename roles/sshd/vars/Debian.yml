@@ -1,0 +1,5 @@
+## roles/ansible-role-sshd/vars/Debian.yml
+# vim:ft=yaml.ansible:
+---
+ssh_daemon: ssh
+...

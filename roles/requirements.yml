@@ -1,0 +1,5 @@
+## roles/requirements.yml
+---
+- src: oscpe262.ntp
+- src: oscpe262.syslogclient
+- src: oscpe262.syslogserver

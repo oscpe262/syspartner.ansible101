@@ -1,0 +1,10 @@
+## group_vars/ntpservers.yml
+# vim:ft=yaml.ansible:
+---
+is_ntp_server: yes
+ntp_servers:
+  - 0.pool.ntp.org
+  - 1.pool.ntp.org
+  - 2.pool.ntp.org
+  - 3.pool.ntp.org
+...

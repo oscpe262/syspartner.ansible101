@@ -1,0 +1,75 @@
+## roles/ansible-role-sshd/tasks/main.yml
+# vim:ft=yaml.ansible:
+---
+- name: Include distribution specific variables
+  include_vars: '{{ item }}'
+  with_first_found:
+    - '{{ ansible_distribution }}.yml'
+    - '{{ ansible_os_family }}.yml'
+    - 'default.yml'
+
+- name: Configuration of ssh daemon (no SELinux)
+  template:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    #dest: /root/sshd_config_new
+    owner: root
+    group: root
+    mode: 0600
+  when: ( ansible_selinux.status is not defined ) or ( ansible_selinux.status == 'Missing selinux Python library')
+  notify: restart sshd
+
+- name: Configuration of ssh daemon (SELinux)
+  template:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0600
+    serole: object_r
+    seuser: system_u
+    setype: etc_t
+  when: ansible_selinux_python_present
+  notify: restart sshd
+
+- name: Clean authorized keys
+  authorized_key:
+    user: root
+    state: present
+    exclusive: true
+    key: "{{ lookup('file', 'public-keys/{{ item }}.pub') }}"
+  with_items:
+    - id_rsa_syspartner
+
+- name: Allow ssh traffic in SELinux
+  seport:
+    ports: 22
+    proto: tcp
+    setype: ssh_port_t
+    state: present
+  when: ( ansible_selinux.status == 'enabled') or ( ansible_selinux.status == 'permissive' )
+
+- name: Open Firewall (firewalld)
+  firewalld:
+    service: ssh
+    permanent: yes
+    state: enabled
+    immediate: yes
+  when: "'RedHat' in ansible_os_family"
+
+- name: Open Firewall (UFW)
+  ufw:
+    rule: allow
+    port: '{{ ssh_port }}'
+    proto: tcp
+    comment: Allow ssh
+  when: "'Debian' in ansible_os_family"
+  ignore_errors: true
+
+- name: Disable sshd
+  service:
+    name: '{{ ssh_daemon }}'
+    enabled: '{{ ssh_enabled }}'
+    state: '{{ ssh_state }}'
+  when: not ssh_enabled
+...

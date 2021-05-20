@@ -1,0 +1,17 @@
+## roles/ansible-role-sshd/defaults/main.yml
+# vim:ft=yaml.ansible:
+---
+ssh_enabled: yes
+ssh_state: restarted
+ssh_daemon: sshd
+ssh_port: '22'
+ssh_addressfamily: any
+ssh_listenaddresses: ["0.0.0.0","::"]
+ssh_logingracetime: 2m
+ssh_permitrootlogin: prohibit-password
+ssh_maxauthtries: 2
+ssh_authorizedkeysfile: .ssh/authorized_keys
+ssh_passwordauthentication: 'no'
+ssh_x11forwarding: 'yes'
+ssh_motd: 'yes'
+...

@@ -1,0 +1,4 @@
+## group_vars/centos8.yml
+# vim:ft=yaml.ansible:
+---
+...

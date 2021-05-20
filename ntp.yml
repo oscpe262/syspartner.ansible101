@@ -1,0 +1,19 @@
+## ntp.yml
+# vim:ft=yaml.ansible:
+---
+- hosts: ntpservers
+  become: yes
+  roles:
+    - role: oscpe262.ntp
+      tags:
+        - ntp
+        - ntpserver
+
+- hosts: all:!ntpservers
+  become: yes
+  roles:
+    - role: oscpe262.ntp
+      tags:
+        - ntp
+        - ntpclient
+...

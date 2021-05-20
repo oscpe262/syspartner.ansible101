@@ -1,0 +1,7 @@
+## group_vars/all.yml
+# vim:ft=yaml.ansible:
+---
+ntp_servers:
+  - '192.168.0.70'
+syslogclientServer: '192.168.0.70'
+...

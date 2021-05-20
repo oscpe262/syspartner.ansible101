@@ -1,0 +1,7 @@
+## roles/base_pkgs/defaults/main.yml
+# vim:ft=yaml.ansible:
+---
+base_dependencies:
+  - 'python3-policycoreutils'
+  - 'python3-libselinux'
+...

@@ -1,0 +1,12 @@
+## common.yml
+# vim:ft=yaml.ansible:
+---
+- hosts: all
+  become: yes
+  become_user: root
+  roles:
+    - role: base_pkgs
+      tags: ["install","pkgs","base"]
+    - role: sshd
+      tags: ["sshd","base"]
+...

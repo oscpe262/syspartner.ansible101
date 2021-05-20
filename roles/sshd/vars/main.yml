@@ -1,0 +1,4 @@
+## roles/ansible-role-sshd/vars/main.yml
+# vim:ft=yaml.ansible:
+---
+...

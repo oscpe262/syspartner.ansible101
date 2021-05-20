@@ -1,0 +1,10 @@
+## roles/base_pkgs/tasks/main.yml
+# vim:ft=yaml.ansible:
+---
+- name: "Ensure Ansible dependencies are installed."
+  package:
+    name: '{{ item }}'
+    state: installed
+  with_items: '{{ base_dependencies }}'
+  when: 'base_dependencies is defined'
+...
